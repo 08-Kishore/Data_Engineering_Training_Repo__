@@ -1,0 +1,45 @@
+SET SQL_SAFE_UPDATES = 0;
+CREATE DATABASE sql_practice_pack;
+USE sql_practice_pack;
+CREATE TABLE menu_items (
+    item_id INT PRIMARY KEY,
+    item_name VARCHAR(100),
+    category VARCHAR(50),
+    price DECIMAL(10,2),
+    available_qty INT
+);
+INSERT INTO menu_items VALUES
+(1, 'Chicken Biryani', 'Main Course', 320, 25),
+(2, 'Paneer Tikka', 'Starter', 240, 15),
+(3, 'Masala Dosa', 'Breakfast', 120, 30),
+(4, 'Veg Burger', 'Fast Food', 180, 10),
+(5, 'Cold Coffee', 'Beverage', 150, 20),
+(6, 'Chicken Burger', 'Fast Food', 220, 8),
+(7, 'Idli', 'Breakfast', 80, 40),
+(8, 'Fresh Lime', 'Beverage', 90, 0);
+
+select * from menu_items;
+select item_name,price from menu_items;
+insert into menu_items value (9,'parota','Dinner',40,30);
+
+update menu_items 
+set price=350 where item_id=1;
+
+update menu_items
+set price = price+(price/10)
+where category='Fast Food';
+
+update menu_items
+set available_qty=available_qty-2
+where item_name='Veg Burger';
+
+delete from menu_items where available_qty=0;
+
+select * from menu_items where price > 200;
+select * from menu_items where price between 100 and 250;
+select * from menu_items where category='Breakfast';
+select * from menu_items where category='Breakfast' or category= 'Beverage';
+
+select * from menu_items order by price desc;
+select * from menu_items order by price desc limit 3;
+select * from menu_items where available_qty < 15;
