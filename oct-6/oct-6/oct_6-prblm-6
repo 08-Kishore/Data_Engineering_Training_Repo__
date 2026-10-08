@@ -1,0 +1,140 @@
+SET SQL_SAFE_UPDATES = 0;
+CREATE TABLE call_performance (
+    call_id INT PRIMARY KEY,
+    agent_name VARCHAR(100),
+    team VARCHAR(50),
+    calls_handled INT,
+    customer_rating DECIMAL(3,2),
+    performance_date DATE
+);
+INSERT INTO call_performance VALUES
+(1, 'Aman', 'Alpha', 42, 4.50, '2026-09-01'),
+(2, 'Sara', 'Alpha', 38, 4.70, '2026-09-01'),
+(3, 'Ravi', 'Beta', 50, 4.20, '2026-09-01'),
+(4, 'Neha', 'Beta', 45, 4.80, '2026-09-01'),
+(5, 'Aman', 'Alpha', 48, 4.60, '2026-09-02'),
+(6, 'Sara', 'Alpha', 44, 4.50, '2026-09-02'),
+(7, 'Ravi', 'Beta', 46, 4.30, '2026-09-02'),
+(8, 'Neha', 'Beta', 52, 4.90, '2026-09-02'),
+(9, 'Kabir', 'Alpha', 41, 4.40, '2026-09-01'),
+(10, 'Kabir', 'Alpha', 49, 4.60, '2026-09-02'),
+(11, 'Pooja', 'Beta', 45, 4.70, '2026-09-01'),
+(12, 'Pooja', 'Beta', 50, 4.80, '2026-09-02');
+
+select 
+    call_id,
+    agent_name,
+    team,
+    calls_handled,
+    customer_rating,
+    performance_date,
+    count(*) over() as total_calls
+from call_performance;
+
+select 
+    call_id,
+    agent_name,
+    team,
+    calls_handled,
+    customer_rating,
+    performance_date,
+    sum(calls_handled) over(partition by team) as team_total_calls
+from call_performance;
+
+select 	
+	call_id,
+    agent_name,
+    team,
+    calls_handled,
+    customer_rating,
+    performance_date,
+    avg(calls_handled) over(partition by team) as average_calls
+from call_performance;
+
+select 	
+	call_id,
+    agent_name,
+    team,
+    calls_handled,
+    customer_rating,
+    performance_date,
+    avg(customer_rating) over(partition by team) as average_rating
+from call_performance;
+
+
+select  
+    call_id,
+    agent_name,
+    team,
+    calls_handled,
+    customer_rating,
+    performance_date,
+    sum(calls_handled) over(
+        partition by agent_name 
+        order by performance_date, call_id
+    ) as cumulative_calls
+from call_performance
+order by agent_name, performance_date, call_id;
+
+select  
+    call_id,
+    agent_name,
+    team,
+    calls_handled,
+    performance_date,
+    sum(calls_handled) over(
+        partition by team 
+        order by performance_date, call_id
+    ) as cumulative_team_calls
+from call_performance
+order by team, performance_date, call_id;
+
+select  
+    call_id,
+    agent_name,
+    team,
+    calls_handled,
+    performance_date,
+    avg(calls_handled) over(partition by team) as team_avg_calls,
+    calls_handled - avg(calls_handled) over(partition by team) as diff_from_avg
+from call_performance;
+
+select  
+    call_id,
+    agent_name,
+    team,
+    calls_handled,
+    performance_date,
+    lag(calls_handled) over(
+        partition by agent_name 
+        order by performance_date
+    ) as prev_day_calls
+from call_performance
+order by agent_name, performance_date;
+
+select  
+    call_id,
+    agent_name,
+    team,
+    calls_handled,
+    performance_date,
+    lag(calls_handled) over(
+        partition by agent_name 
+        order by performance_date
+    ) as prev_day_calls,
+    calls_handled - lag(calls_handled) over(
+        partition by agent_name 
+        order by performance_date
+    ) as diff_from_prev
+from call_performance
+order by agent_name, performance_date;
+
+select  
+    call_id,
+    agent_name,
+    team,
+    calls_handled,
+    performance_date,
+    sum(calls_handled) over(partition by agent_name) as total_agent_calls
+from call_performance
+order by agent_name, performance_date;
