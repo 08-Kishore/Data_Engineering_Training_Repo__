@@ -1,0 +1,10 @@
+file = open("employees.txt","w")
+file.write("101,Aman,IT,75000\n")
+file.write("102,Sara,IT,65000\n")
+file.write("103,Neha,IT,55000\n")
+file.close()
+
+file=open("employees.txt","r")
+data=file.read()
+print(data)
+file.close()

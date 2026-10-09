@@ -1,0 +1,4 @@
+101,Aman,IT,75000
+102,Sara,IT,65000
+103,Neha,IT,55000
+104,Sara,Sales,68000
