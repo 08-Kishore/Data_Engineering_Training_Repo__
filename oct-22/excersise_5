@@ -1,0 +1,33 @@
+df = df.withColumn(
+    "order_size",
+    when(col("final_amount") >= 50000, "High")
+    .when(col("final_amount") >= 15000, "Medium")
+    .otherwise("Low")
+)
+
+df.show(truncate=False)
+
+
+df = df.withColumn(
+    "quantity_type",
+    when(col("quantity") >= 4, "Bulk")
+    .otherwise("Regular")
+)
+
+df.show(truncate=False)
+
+
+df = df.withColumn(
+    "delivery_status_category",
+    when(col("status") == "Delivered", "Completed")
+    .when(
+        (col("status") == "Cancelled") |
+        (col("status") == "Returned"),
+        "Failed"
+    )
+    .otherwise("In Progress")
+)
+
+df.show(truncate=False)
+
+

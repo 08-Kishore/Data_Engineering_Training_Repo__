@@ -1,0 +1,21 @@
+from pyspark.sql.functions import sum, avg, min, max
+
+df.select(sum("quantity").alias("total_quantity_sold")).show()
+
+
+df.select(sum("gross_amount").alias("total_gross_sales")).show()
+
+
+df.select(avg("unit_price").alias("average_unit_price")).show()
+
+
+df.select(max("unit_price").alias("maximum_unit_price")).show()
+
+
+df.select(min("unit_price").alias("minimum_unit_price")).show()
+
+
+df.select(sum("discount_amount").alias("total_discount_given")).show()
+
+
+df.select(sum("final_amount").alias("total_final_sales")).show()

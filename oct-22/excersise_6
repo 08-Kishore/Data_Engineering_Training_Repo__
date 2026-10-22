@@ -1,0 +1,18 @@
+df.sort("unit_price", ascending=False).show(truncate=False)
+
+
+df.sort("quantity", ascending=False).show(truncate=False)
+
+
+df.sort("city").show(truncate=False)
+
+
+df.orderBy(
+    col("region").asc(),
+    col("final_amount").desc()
+).show(truncate=False)
+
+
+df.orderBy(
+    col("final_amount").desc()
+).show(10, truncate=False)

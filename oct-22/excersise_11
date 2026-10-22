@@ -1,0 +1,37 @@
+from pyspark.sql.functions import (
+    to_date, year, month, dayofmonth,
+    sum, count, col
+)
+
+df = df.withColumn(
+    "order_date",
+    to_date("order_date", "yyyy-MM-dd")
+)
+
+df = df.withColumn("year", year("order_date"))
+df = df.withColumn("month", month("order_date"))
+df = df.withColumn("day", dayofmonth("order_date"))
+
+
+df.groupBy("month").count().show()
+
+
+df.groupBy("month") \
+  .agg(sum("final_amount").alias("total_sales")) \
+  .show()
+
+
+df.groupBy("month", "category") \
+  .agg(sum("final_amount").alias("total_sales")) \
+  .show()
+
+
+df.groupBy("month", "status") \
+  .count() \
+  .show()
+
+
+df.groupBy("month") \
+  .agg(sum("final_amount").alias("total_sales")) \
+  .orderBy(col("total_sales").desc()) \
+  .show(1)

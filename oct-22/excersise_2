@@ -1,0 +1,37 @@
+df.filter(
+    (df.category == "Electronics") &
+    (df.city == "Hyderabad")
+).show(truncate=False)
+
+
+df.filter(
+    (df.status == "Delivered") &
+    (df.region == "South")
+).show(truncate=False)
+
+
+df.filter(
+    (df.quantity > 2) &
+    (df.unit_price > 10000)
+).show(truncate=False)
+
+
+df.filter(
+    (df.city == "Mumbai") |
+    (df.city == "Pune")
+).show(truncate=False)
+
+
+df.filter(df.status != "Cancelled").show(truncate=False)
+
+
+df.filter(
+    (df.category == "Furniture") &
+    (df.unit_price > 8000)
+).show(truncate=False)
+
+
+df.filter(
+    (df.category == "Accessories") &
+    (df.quantity > 3)
+).show(truncate=False)

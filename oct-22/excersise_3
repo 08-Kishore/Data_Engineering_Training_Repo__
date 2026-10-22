@@ -1,0 +1,27 @@
+df.select(
+    "order_id",
+    "customer_name",
+    "product_name",
+    "unit_price"
+).show(truncate=False)
+
+
+df_price = df.withColumnRenamed("unit_price", "price")
+df_price.show(truncate=False)
+
+
+df_customer = df.withColumnRenamed("customer_name", "customer")
+df_customer.show(truncate=False)
+
+
+df_no_rating = df.drop("rating")
+df_no_rating.show(truncate=False)
+
+
+new_df = df.drop(
+    "customer_name",
+    "rating",
+    "payment_method"
+)
+
+new_df.show(truncate=False)

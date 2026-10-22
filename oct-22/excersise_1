@@ -1,0 +1,41 @@
+from pyspark.sql import SparkSession
+spark=SparkSession.builder.appName("PySpark Training").getOrCreate()
+df=spark.read.csv("retail_transactions_100k (1).csv",header=True,inferSchema=True)
+
+
+df.show(20, truncate=False)
+
+
+df.printSchema()
+
+
+print(df.columns)
+
+
+df.count()
+
+
+df.select(
+    "order_id",
+    "product_name",
+    "city",
+    "quantity",
+    "unit_price"
+).show(truncate=False)
+
+
+df.filter(df.category == "Electronics").show(truncate=False)
+
+
+df.filter(df.city == "Hyderabad").show(truncate=False)
+
+
+df.filter(df.quantity > 3).show(truncate=False)
+
+
+df.filter(df.unit_price > 20000).show(truncate=False)
+
+
+df.filter(df.status == "Delivered").show(truncate=False)
+
+

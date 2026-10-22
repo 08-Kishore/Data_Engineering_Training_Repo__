@@ -1,0 +1,42 @@
+from pyspark.sql.functions import col, lit, when
+
+
+df = df.withColumn(
+    "gross_amount",
+    col("quantity") * col("unit_price")
+)
+
+df.show(truncate=False)
+
+
+df = df.withColumn(
+    "discount_amount",
+    col("gross_amount") * col("discount_pct") / 100
+)
+
+df.show(truncate=False)
+
+
+df = df.withColumn(
+    "final_amount",
+    col("gross_amount") - col("discount_amount")
+)
+
+df.show(truncate=False)
+
+
+df = df.withColumn(
+    "country",
+    lit("India")
+)
+
+df.show(truncate=False)
+
+
+df = df.withColumn(
+    "high_value",
+    when(col("final_amount") >= 50000, "Yes")
+    .otherwise("No")
+)
+
+df.show(truncate=False)

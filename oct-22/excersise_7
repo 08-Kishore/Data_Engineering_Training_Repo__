@@ -1,0 +1,16 @@
+df.select("city").distinct().show()
+
+
+df.select("region").distinct().show()
+
+
+df.select("category").distinct().show()
+
+
+df.select("payment_method").distinct().show()
+
+
+df.select("customer_id").distinct().count()
+
+
+df.select("product_name").distinct().count()

@@ -1,0 +1,40 @@
+#from pyspark.sql.functions import sum, avg, col
+
+
+df.groupBy("city") \
+  .agg(sum("final_amount").alias("total_sales")) \
+  .orderBy(col("total_sales").desc()) \
+  .show()
+
+
+df.groupBy("product_name") \
+  .agg(sum("quantity").alias("total_quantity_sold")) \
+  .orderBy(col("total_quantity_sold").desc()) \
+  .show()
+
+
+df.groupBy("category") \
+  .agg(avg("unit_price").alias("avg_unit_price")) \
+  .orderBy(col("avg_unit_price").desc()) \
+  .show()
+
+
+df.groupBy("city") \
+  .agg(sum("final_amount").alias("total_sales")) \
+  .orderBy(col("total_sales").desc()) \
+  .limit(5) \
+  .show()
+
+
+df.groupBy("product_name") \
+  .agg(sum("quantity").alias("total_quantity_sold")) \
+  .orderBy(col("total_quantity_sold").desc()) \
+  .limit(5) \
+  .show()
+
+
+df.groupBy("customer_name") \
+  .agg(sum("final_amount").alias("total_purchase")) \
+  .orderBy(col("total_purchase").desc()) \
+  .limit(10) \
+  .show()
