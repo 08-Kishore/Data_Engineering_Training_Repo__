@@ -1,0 +1,16 @@
+product_id,product_name,category,list_price,cost_price
+P001,Wireless Mouse,Accessories,799,420
+P002,Mechanical Keyboard,Accessories,2999,1600
+P003,USB-C Hub,Accessories,1899,920
+P004,27-inch Monitor,Displays,16999,11400
+P005,Webcam HD,Accessories,2499,1400
+P006,Laptop 14,Computers,55999,43300
+P007,Laptop 16,Computers,79999,62600
+P008,Android Tablet,Tablets,22999,17000
+P009,Stylus Pen,Accessories,1999,850
+P010,Bluetooth Speaker,Audio,3999,2000
+P011,Noise-Cancelling Headphones,Audio,8999,5300
+P012,Portable SSD 1TB,Storage,6999,4600
+P013,External HDD 2TB,Storage,5999,3900
+P014,Smartphone 5G,Mobiles,29999,22000
+P015,Budget Smartphone,Mobiles,13999,10100

@@ -1,0 +1,9 @@
+store_id,city,region,store_type
+S01,Hyderabad,South,Mall
+S02,Bengaluru,South,High Street
+S03,Chennai,South,Mall
+S04,Mumbai,West,High Street
+S05,Pune,West,Mall
+S06,Delhi,North,Mall
+S07,Jaipur,North,High Street
+S08,Kolkata,East,High Street
