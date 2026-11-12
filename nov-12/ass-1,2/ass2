@@ -1,0 +1,101 @@
+cat > it_incident_routing_dag.py <<'EOF'
+from airflow import DAG
+from airflow.providers.standard.operators.python import (
+    PythonOperator,
+    BranchPythonOperator
+)
+from airflow.utils.trigger_rule import TriggerRule
+from datetime import datetime, timedelta
+
+
+def load_incident():
+    incident = {
+        "ticket_id": "INC-402",
+        "service": "Email",
+        "severity": "High",
+        "reported_by": "Operations"
+    }
+    return incident
+
+
+def choose_response(ti):
+    incident = ti.xcom_pull(task_ids="load_incident")
+
+    if incident["severity"] in ["High", "Critical"]:
+        return "urgent_response"
+    else:
+        return "standard_response"
+
+
+def urgent_response(ti):
+    attempt = ti.try_number
+
+    if attempt == 1:
+        print("Simulating temporary failure...")
+        raise Exception("Temporary escalation system failure")
+
+    incident = ti.xcom_pull(task_ids="load_incident")
+
+    print(
+        f"URGENT ESCALATION: {incident['ticket_id']} "
+        f"for {incident['service']} service"
+    )
+
+
+def standard_response(ti):
+    incident = ti.xcom_pull(task_ids="load_incident")
+
+    print(
+        f"Standard Service Desk Assignment: "
+        f"{incident['ticket_id']}"
+    )
+
+
+def write_audit(ti):
+    incident = ti.xcom_pull(task_ids="load_incident")
+
+    print("=== AUDIT RECORD ===")
+    print(f"Incident ID: {incident['ticket_id']}")
+    print("Routing completed successfully")
+    print("====================")
+
+
+with DAG(
+    dag_id="it_incident_routing",
+    start_date=datetime(2025, 1, 1),
+    schedule=None,
+    catchup=False,
+) as dag:
+
+    task1 = PythonOperator(
+        task_id="load_incident",
+        python_callable=load_incident,
+    )
+
+    task2 = BranchPythonOperator(
+        task_id="choose_response",
+        python_callable=choose_response,
+    )
+
+    task3 = PythonOperator(
+        task_id="urgent_response",
+        python_callable=urgent_response,
+        retries=1,
+        retry_delay=timedelta(seconds=10),
+    )
+
+    task4 = PythonOperator(
+        task_id="standard_response",
+        python_callable=standard_response,
+    )
+
+    task5 = PythonOperator(
+        task_id="write_audit",
+        python_callable=write_audit,
+        trigger_rule=TriggerRule.NONE_FAILED_MIN_ONE_SUCCESS,
+    )
+
+    task1 >> task2
+    task2 >> [task3, task4]
+    [task3, task4] >> task5
+EOF
